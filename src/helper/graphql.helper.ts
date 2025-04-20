@@ -1,4 +1,4 @@
-export class FetchHelper {
+export class GraphqlHelper {
   static async fetchGraphQL<T>(
     url: string,
     query: string,

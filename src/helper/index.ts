@@ -1,1 +1,1 @@
-export * from "./fetch.helper";
+export * from "./graphql.helper";

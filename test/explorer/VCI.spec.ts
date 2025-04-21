@@ -1,7 +1,7 @@
 import assert from "assert";
-import { VCIListing } from "../../src";
+import { VCIFinance, VCIListing } from "../../src";
 import { ESymbolGroupCode } from "../../src/enums";
-describe("VCIListing", function () {
+describe("VCI Listing", function () {
   it("VCI (Get All Symbols)", async function () {
     const allSymbols = await VCIListing.getAllSymbols();
     assert.deepEqual(!!allSymbols?.length, true, "Wrong Results");
@@ -20,5 +20,13 @@ describe("VCIListing", function () {
   it("VCI (Get Icb Codes)", async function () {
     const icbCodes = await VCIListing.getIndustriesIcb();
     assert.deepEqual(!!icbCodes?.length, true, "Wrong Results");
+  });
+});
+
+describe("VCI Finance", function () {
+  it("VCI (Get Company Financial Ratio)", async function () {
+    const data = await VCIFinance.getCompanyFinancialRatio();
+    console.log("data ===> ",data)
+    assert.deepEqual(true, true, "Wrong Results");
   });
 });

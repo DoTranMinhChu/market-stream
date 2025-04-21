@@ -8,7 +8,7 @@ import {
 import { RestApiHelper } from "../../helper/restApi.helper";
 import path from "path";
 import { ESymbolGroupCode } from "../../enums";
-import { group } from "console";
+import { MapToBaseFinancialStatement } from "../../types/financialStatement.type";
 
 export class VCIListing {
   /**

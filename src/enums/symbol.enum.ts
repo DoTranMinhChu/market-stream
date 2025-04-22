@@ -27,3 +27,7 @@ export enum ESymbolGroupCode {
   BOND = "BOND",
   CW = "CW",
 }
+export enum EPeriod {
+  YEAR = "YEAR",
+  QUARTER = "QUARTER",
+}

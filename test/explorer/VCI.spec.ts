@@ -1,6 +1,6 @@
 import assert from "assert";
 import { VCIFinance, VCIListing } from "../../src";
-import { ESymbolGroupCode } from "../../src/enums";
+import { EPeriod, ESymbolGroupCode } from "../../src/enums";
 describe("VCI Listing", function () {
   it("VCI (Get All Symbols)", async function () {
     const allSymbols = await VCIListing.getAllSymbols();
@@ -25,8 +25,14 @@ describe("VCI Listing", function () {
 
 describe("VCI Finance", function () {
   it("VCI (Get Company Financial Ratio)", async function () {
-    const data = await VCIFinance.getCompanyFinancialRatio();
-    console.log("data ===> ",data)
-    assert.deepEqual(true, true, "Wrong Results");
+    const companyFinancialRatio = await VCIFinance.getCompanyFinancialRatio({
+      period: EPeriod.QUARTER,
+      stockTicker: "VCI",
+    });
+    assert.deepEqual(
+      !!companyFinancialRatio.ratio?.length,
+      true,
+      "Wrong Results"
+    );
   });
 });

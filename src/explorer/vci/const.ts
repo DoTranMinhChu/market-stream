@@ -1,4 +1,4 @@
-import { ESymbolGroupCode } from "../../enums";
+import { EPeriod, ESymbolGroupCode } from "../../enums";
 
 export const VCI_CONST = {
   BASE_URL: "https://mt.vietcap.com.vn",
@@ -96,7 +96,7 @@ export const VCI_CONST = {
     cash_flow: "cashflow",
   },
 
-  FINANCIAL_REPORT_PERIOD_MAP: { year: "Y", quarter: "Q" },
+  FINANCIAL_REPORT_PERIOD_MAP: { [EPeriod.YEAR]: "Y", [EPeriod.QUARTER]: "Q" },
 
   UNIT_MAP: {
     BILLION: "tỷ",

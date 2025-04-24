@@ -3,9 +3,13 @@ import { VCI_CONST } from "./const";
 import { GraphqlHelper } from "../../helper";
 import { MapToBaseFinancialStatement } from "../../types/financialStatement.type";
 import { EPeriod } from "../../enums";
-import { ICompanyFinancialRatioData } from "../../types/financial.type";
+import {
+  ICompanyFinancialRatioData,
+  IFinancialRatioDictionary,
+} from "../../types/financial.type";
+import { UtilHelper } from "../../helper/util.helper";
 
-export class VCIFinance {
+export class VCIExplorerFinance {
   /**
    * Truy xuất thông tin chi tiết của tất cả các mã cổ phiếu trên thị trường Việt Nam.
    *
@@ -16,13 +20,14 @@ export class VCIFinance {
    *
    * @example
    * ```typescript
-   * const allSymbols = await VCIListing.getAllSymbols();
+   * const allSymbols = await VCIExplorerListing.getAllSymbols();
    * console.log(allSymbols); // Ví dụ: [{ symbol: "VN30", name: "VN30 Index", ... }, ...]
    * ```
    */
   static async getCompanyFinancialRatio(input: {
     stockTicker: string;
     period: EPeriod;
+    rawField?: boolean;
   }): Promise<ICompanyFinancialRatioData> {
     const query = `query Query($ticker: String!, $period: String!) {
   CompanyFinancialRatio(ticker: $ticker, period: $period) {
@@ -44,7 +49,9 @@ export class VCIFinance {
       variables
     );
     return {
-      ratio: CompanyFinancialRatio.ratio.map(this.mapRawFinancial),
+      ratio: input.rawField
+        ? CompanyFinancialRatio.ratio
+        : CompanyFinancialRatio.ratio.map(this.mapRawFinancial),
       period: CompanyFinancialRatio.period,
     };
   }
@@ -53,7 +60,7 @@ export class VCIFinance {
    * @param raw Đối tượng chứa dữ liệu tài chính thô từ API
    * @returns Đối tượng đã được ánh xạ với các tên trường mới
    */
-  private static mapRawFinancial(raw: any): any {
+  static mapRawFinancial(raw: any): any {
     const mapKey: { [key: string]: string } = {
       ticker: "stockTicker",
       yearReport: "financialReportYear",
@@ -116,5 +123,21 @@ export class VCIFinance {
     }
 
     return raw;
+  }
+
+  /**
+   * Lấy từ điển ánh xạ cho tất cả các chỉ số tài chính
+   *
+   */
+  static async getFinancialRatioDictionary(): Promise<
+    Array<IFinancialRatioDictionary>
+  > {
+    const query = `query Query { ListFinancialRatio{ id type name unit isDefault fieldName en_Type en_Name tagName comTypeCode order } }`;
+
+    const { ListFinancialRatio } = await GraphqlHelper.fetchGraphQL<any>(
+      VCI_CONST.GRAPHQL_URL,
+      query
+    );
+    return UtilHelper.deepCamelCase(ListFinancialRatio);
   }
 }

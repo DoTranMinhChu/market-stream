@@ -302,3 +302,17 @@ export interface ICompanyFinancialRatioData {
   ratio: Array<ICompanyFinancialRatio>;
   period: Array<string>;
 }
+
+export interface IFinancialRatioDictionary {
+  id: string;
+  type: string;
+  name: string;
+  unit: string;
+  isDefault: boolean;
+  fieldName: string;
+  enType: string;
+  enName: string;
+  tagName: string;
+  comTypeCode: string;
+  order: string;
+}

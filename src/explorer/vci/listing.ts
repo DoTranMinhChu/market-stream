@@ -10,7 +10,7 @@ import path from "path";
 import { ESymbolGroupCode } from "../../enums";
 import { MapToBaseFinancialStatement } from "../../types/financialStatement.type";
 
-export class VCIListing {
+export class VCIExplorerListing {
   /**
    * Truy xuất thông tin chi tiết của tất cả các mã cổ phiếu trên thị trường Việt Nam.
    *
@@ -21,7 +21,7 @@ export class VCIListing {
    *
    * @example
    * ```typescript
-   * const allSymbols = await VCIListing.getAllSymbols();
+   * const allSymbols = await VCIExplorerListing.getAllSymbols();
    * console.log(allSymbols); // Ví dụ: [{ symbol: "VN30", name: "VN30 Index", ... }, ...]
    * ```
    */
@@ -40,7 +40,7 @@ export class VCIListing {
    *
    * @example
    * ```typescript
-   * const icbCodes = await VCIListing.getIndustriesIcb();
+   * const icbCodes = await VCIExplorerListing.getIndustriesIcb();
    * console.log(icbCodes); // Ví dụ: [{ icbCode: "1000", level: 1, icbName: "Ngành công nghiệp", enIcbName: "Industrials" }, ...]
    * ```
    */
@@ -71,7 +71,7 @@ export class VCIListing {
    *
    * @example
    * ```typescript
-   * const listingInfo = await VCIListing.getCompaniesListingInfo();
+   * const listingInfo = await VCIExplorerListing.getCompaniesListingInfo();
    * console.log(listingInfo); // Ví dụ: [{ ticker: "VN30", icbCode1: "1000", icbCode2: "1010", ... }, ...]
    * ```
    */
@@ -106,7 +106,7 @@ export class VCIListing {
    *
    * @example
    * ```typescript
-   * const hoseSymbols = await VCIListing.getAllSymbolsByGroupCode(ESymbolGroupCode.HOSE);
+   * const hoseSymbols = await VCIExplorerListing.getAllSymbolsByGroupCode(ESymbolGroupCode.HOSE);
    * console.log(hoseSymbols); // Ví dụ: ["VN30", "VNM", ...]
    * ```
    */

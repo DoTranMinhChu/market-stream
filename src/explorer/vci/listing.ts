@@ -9,6 +9,7 @@ import { RestApiHelper } from "../../helper/restApi.helper";
 import path from "path";
 import { ESymbolGroupCode } from "../../enums";
 import { MapToBaseFinancialStatement } from "../../types/financialStatement.type";
+import { UtilHelper } from "../../helper/util.helper";
 
 export class VCIExplorerListing {
   /**
@@ -26,7 +27,10 @@ export class VCIExplorerListing {
    * ```
    */
   static async getAllSymbols(): Promise<Array<ISymbolInfo>> {
-    const url = path.join(VCI_CONST.BASE_URL, "api/price/symbols/getAll");
+    const url = UtilHelper.joinUrl(
+      VCI_CONST.BASE_URL,
+      "api/price/symbols/getAll"
+    );
     return RestApiHelper.get<Array<ISymbolInfo>>(url);
   }
 
@@ -113,7 +117,10 @@ export class VCIExplorerListing {
   static async getAllSymbolsByGroupCode(
     groupCode: ESymbolGroupCode
   ): Promise<string[]> {
-    const url = path.join(VCI_CONST.BASE_URL, "api/price/symbols/getByGroup");
+    const url = UtilHelper.joinUrl(
+      VCI_CONST.BASE_URL,
+      "api/price/symbols/getByGroup"
+    );
     const response = await RestApiHelper.get<Array<ISymbolInfo>>(url, {
       query: {
         group: VCI_CONST.GROUP_CODE_MAP[groupCode],

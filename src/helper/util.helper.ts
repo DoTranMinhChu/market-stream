@@ -42,4 +42,7 @@ export class UtilHelper {
     // Nếu không phải array hoặc plain object, trả về nguyên bản (primitive, Date, RegExp...)
     return input;
   }
+  public static joinUrl(base: string, path: string) {
+    return new URL(path, base).toString();
+  }
 }

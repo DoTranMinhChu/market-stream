@@ -31,3 +31,9 @@ export enum EPeriod {
   YEAR = "YEAR",
   QUARTER = "QUARTER",
 }
+
+export enum ETimeFrame {
+  ONE_DAY = "ONE_DAY",
+  ONE_HOUR = "ONE_HOUR",
+  ONE_MINUTE = "ONE_MINUTE",
+}

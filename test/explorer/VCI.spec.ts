@@ -3,8 +3,9 @@ import {
   VCIExplorerCompany,
   VCIExplorerFinance,
   VCIExplorerListing,
+  VCIExplorerQuote,
 } from "../../src";
-import { EPeriod, ESymbolGroupCode } from "../../src/enums";
+import { EPeriod, ESymbolGroupCode, ETimeFrame } from "../../src/enums";
 describe("VCI Listing", function () {
   it("VCI (Get All Symbols)", async function () {
     const allSymbols = await VCIExplorerListing.getAllSymbols();
@@ -48,13 +49,24 @@ describe("VCI Finance", function () {
   });
 });
 describe("VCI Company", function () {
-
   it("VCI (Get Company Information Detail)", async function () {
     const financialRatioDictionary =
       await VCIExplorerCompany.getCompanyInformationDetail({
         stockTicker: "VNM",
         lang: "vi",
       });
+
+    assert.deepEqual(!!financialRatioDictionary, true, "Wrong Results");
+  });
+});
+describe("VCI Quote", function () {
+  it("VCI (Get Quote)", async function () {
+    const financialRatioDictionary = await VCIExplorerQuote.getAllSymbols({
+      timeFrame: ETimeFrame.ONE_HOUR,
+      symbols: ["VIC", "VNM"],
+      fromTimestamp: 1745169473000,
+      toTimestamp: 1745687873000,
+    });
 
     assert.deepEqual(!!financialRatioDictionary, true, "Wrong Results");
   });

@@ -30,6 +30,7 @@
     "@types/chai": "^4.3.16",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.13.0",
+    "@types/user-agents": "^1.0.4",
     "assert": "^2.1.0",
     "chai": "^5.1.1",
     "mocha": "^10.4.0",
@@ -37,5 +38,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "user-agents": "^1.1.529"
+  }
 }

@@ -1,8 +1,8 @@
 import path from "path";
 import { VCI_CONST } from "./const";
-import { RestApiHelper } from "../../helper/restApi.helper";
-import { ETimeFrame } from "../../enums";
-import { UtilHelper } from "../../helper/util.helper";
+import { EMatchType, ETimeFrame } from "../../enums";
+import { UtilHelper, RestApiHelper, ExplorerHelper } from "../../helper";
+import { IIntradayData } from "../../types/quote.type";
 
 export class VCIExplorerQuote {
   /**
@@ -30,12 +30,18 @@ export class VCIExplorerQuote {
       "/api/chart/OHLCChart/gap"
     );
 
-    const res = await RestApiHelper.post<any>(url, {
-      timeFrame: input.timeFrame,
-      symbols: input.symbols,
-      from: input.fromTimestamp / 1000,
-      to: input.toTimestamp / 1000,
-    });
+    const res = await RestApiHelper.post<any>(
+      url,
+      {
+        timeFrame: input.timeFrame,
+        symbols: input.symbols,
+        from: input.fromTimestamp / 1000,
+        to: input.toTimestamp / 1000,
+      },
+      {
+        headers: ExplorerHelper.getHeaders("VCI", true),
+      }
+    );
 
     return this.mapToOHLCVT(res);
   }
@@ -55,6 +61,64 @@ export class VCIExplorerQuote {
           accumulatedVolume: accumulatedVolume[i],
           accumulatedValue: accumulatedValue[i],
         })),
+      })
+    );
+  }
+
+  /**
+   *  Truy xuất dữ liệu khớp lệnh của mã chứng khoán bất kỳ từ nguồn dữ liệu
+   *
+   */
+  static async getIntraday(input: {
+    symbol: string;
+    limit: number;
+    truncTimestamp?: number | null;
+  }): Promise<Array<IIntradayData>> {
+    const url = UtilHelper.joinUrl(
+      VCI_CONST.TRADING_URL,
+      "/api/market-watch/LEData/getAll"
+    );
+
+    const res = await RestApiHelper.post<any>(
+      url,
+      {
+        symbol: input.symbol,
+        limit: input.limit,
+        truncTime: input.truncTimestamp ? input.truncTimestamp / 1000 : null,
+      },
+      {
+        headers: ExplorerHelper.getHeaders("VCI", true),
+      }
+    );
+    return this.mapDataIntraday(res);
+  }
+
+  private static mapDataIntraday(response: any[]): Array<IIntradayData> {
+    return response.map(
+      ({
+        id,
+        symbol,
+        truncTime,
+        matchType,
+        matchVol,
+        matchPrice,
+        accumulatedVolume,
+        accumulatedValue,
+      }) => ({
+        id,
+        symbol,
+        truncTimestamp: Number(truncTime) * 1000,
+        truncDate: new Date(Number(truncTime) * 1000),
+        matchType:
+          matchType == "b"
+            ? EMatchType.BUY
+            : matchType == "s"
+            ? EMatchType.SELL
+            : EMatchType.OTHER,
+        matchVolume: Number(matchVol),
+        matchPrice: Number(matchPrice),
+        accumulatedVolume: Number(accumulatedVolume),
+        accumulatedValue: Number(accumulatedValue),
       })
     );
   }

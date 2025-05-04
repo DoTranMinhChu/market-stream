@@ -37,3 +37,8 @@ export enum ETimeFrame {
   ONE_HOUR = "ONE_HOUR",
   ONE_MINUTE = "ONE_MINUTE",
 }
+export enum EMatchType {
+  SELL = "SELL",
+  BUY = "BUY",
+  OTHER = "OTHER",
+}

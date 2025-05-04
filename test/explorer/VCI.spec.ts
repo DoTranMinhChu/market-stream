@@ -70,4 +70,13 @@ describe("VCI Quote", function () {
 
     assert.deepEqual(!!financialRatioDictionary, true, "Wrong Results");
   });
+  it("VCI (Get Intraday)", async function () {
+    const dataIntraday = await VCIExplorerQuote.getIntraday({
+      symbol: "VIC",
+      limit: 10,
+      truncTimestamp: null,
+    });
+
+    assert.deepEqual(!!dataIntraday?.length, true, "Wrong Results");
+  });
 });
